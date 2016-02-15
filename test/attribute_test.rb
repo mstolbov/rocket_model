@@ -38,4 +38,11 @@ describe RocketModel::Attribute do
     exception = assert_raises(RocketModel::UnknownAttributeError) { subject.attributes = {unknown: 1} }
     assert_equal exception.message, "unknown attribute 'unknown' for #{subject.class}."
   end
+
+  it "allows mass-assignment in constructor" do
+    klass = Class.new { include RocketModel::Base }
+    klass.attribute :name
+    instance = klass.new name: "Jonny"
+    assert_equal instance.name, "Jonny"
+  end
 end

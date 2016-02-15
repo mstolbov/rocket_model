@@ -29,6 +29,7 @@ module RocketModel
 
     def initialize(args = {})
       define_attributes
+      self.attributes = args
     end
 
     def attributes
@@ -67,7 +68,7 @@ module RocketModel
     private :define_attributes
 
     def attribute_definitions
-      @attribute_definitions ||= self.class.instance_variable_get("@attribute_definitions")
+      self.class.instance_variable_get("@attribute_definitions")
     end
     private :attribute_definitions
 
