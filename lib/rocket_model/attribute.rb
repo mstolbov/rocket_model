@@ -41,9 +41,13 @@ module RocketModel
     end
 
     def attributes=(values)
-      values.each do |m, val|
-        # TODO validate write method
-        public_send "#{m}=", val
+      values.each do |name, value|
+        writer_name = "#{name}="
+        if respond_to?(writer_name)
+          public_send writer_name, value
+        else
+          fail UnknownAttributeError.new(self, name)
+        end
       end
     end
 

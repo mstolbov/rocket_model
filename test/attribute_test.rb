@@ -33,4 +33,9 @@ describe RocketModel::Attribute do
     exception = assert_raises(ArgumentError) { klass.attribute(:attributes) }
     assert_equal exception.message, ":attributes is not allowed as an attribute name"
   end
+
+  it "raises error when attributes mass-assignment with unknown attribute" do
+    exception = assert_raises(RocketModel::UnknownAttributeError) { subject.attributes = {unknown: 1} }
+    assert_equal exception.message, "unknown attribute 'unknown' for #{subject.class}."
+  end
 end
