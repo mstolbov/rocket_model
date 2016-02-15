@@ -1,5 +1,7 @@
 require "rocket_model/version"
 
 module RocketModel
-  # Your code goes here...
+  autoload :Attribute, "rocket_model/attribute"
+  autoload :Base, "rocket_model/base"
+
 end
