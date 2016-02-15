@@ -2,16 +2,29 @@ require 'test_helper'
 
 describe RocketModel::Attribute do
 
+  subject do
+    klass = Class.new { include RocketModel::Base }
+    klass.attribute :name
+    klass.new
+  end
+
   it "returns self" do
     klass = Class.new { include RocketModel::Base }
     assert_equal klass.attribute(:name), klass
   end
 
   it "creates methods by given attribute name" do
-    klass = Class.new { include RocketModel::Base }
-    klass.attribute :name
-    instance = klass.new
-    assert instance.respond_to?(:name)
-    assert instance.respond_to?(:name=)
+    assert subject.respond_to?(:name)
+    assert subject.respond_to?(:name=)
+  end
+
+  it "#attributes= accepts a hash for mass-assignment" do
+    assert_equal subject.attributes={name: "Jony"}, {name: "Jony"}
+  end
+
+  it "#attributes returns attributes hash" do
+    assert_equal subject.attributes, {name: nil}
+    subject.attributes = {name: "Stefan"}
+    assert_equal subject.attributes, {name: "Stefan"}
   end
 end

@@ -2,7 +2,6 @@ module RocketModel
   module Attribute
 
     def self.included(base)
-      super
       base.extend ClassMethods
       base.class_eval do
         setup
@@ -24,8 +23,24 @@ module RocketModel
       define_attributes
     end
 
+    def attributes
+      values = {}
+      attribute_definitions.each do |attribute_args|
+        name, _ = *attribute_args
+        values[name] = public_send(name)
+      end
+      values
+    end
+
+    def attributes=(values)
+      values.each do |m, val|
+        # TODO validate write method
+        public_send "#{m}=", val
+      end
+    end
+
     def define_attributes
-      attribute_definitions = self.class.instance_variable_get("@attribute_definitions")
+      # TODO validate attribute name
       attribute_definitions.each do |attribute_args|
         name, _ = *attribute_args
         define_singleton_method name do
@@ -39,6 +54,11 @@ module RocketModel
       end
     end
     private :define_attributes
+
+    def attribute_definitions
+      @attribute_definitions ||= self.class.instance_variable_get("@attribute_definitions")
+    end
+    private :attribute_definitions
 
   end
 end
