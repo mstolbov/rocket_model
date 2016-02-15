@@ -14,9 +14,17 @@ module RocketModel
       end
 
       def attribute(name)
+        validate_name(name)
         @attribute_definitions << [name]
         self
       end
+
+      def validate_name(name)
+        if instance_methods.include?(:attributes) && name.to_sym == :attributes
+          fail ArgumentError, "#{name.inspect} is not allowed as an attribute name"
+        end
+      end
+      private :validate_name
     end
 
     def initialize(args = {})
@@ -40,7 +48,6 @@ module RocketModel
     end
 
     def define_attributes
-      # TODO validate attribute name
       attribute_definitions.each do |attribute_args|
         name, _ = *attribute_args
         define_singleton_method name do

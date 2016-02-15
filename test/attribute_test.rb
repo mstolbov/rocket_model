@@ -27,4 +27,10 @@ describe RocketModel::Attribute do
     subject.attributes = {name: "Stefan"}
     assert_equal subject.attributes, {name: "Stefan"}
   end
+
+  it "raises error when #attribute is a reserved wrong name" do
+    klass = Class.new { include RocketModel::Base }
+    exception = assert_raises(ArgumentError) { klass.attribute(:attributes) }
+    assert_equal exception.message, ":attributes is not allowed as an attribute name"
+  end
 end
