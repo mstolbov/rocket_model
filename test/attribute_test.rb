@@ -45,4 +45,31 @@ describe RocketModel::Attribute do
     instance = klass.new name: "Jonny"
     assert_equal instance.name, "Jonny"
   end
+
+  describe "with type defined" do
+    subject do
+      klass = Class.new { include RocketModel::Base }
+      klass.attribute :name, String
+      klass.new
+    end
+
+    it "sets default value in initialize" do
+      exception = assert_raises(ArgumentError) { subject }
+      assert_equal exception.message, "String is not allowed as an attribute type"
+    end
+
+  end
+
+  describe "with default values" do
+    subject do
+      klass = Class.new { include RocketModel::Base }
+      klass.attribute :name, :String, default: "Jonny Smith"
+      klass.new
+    end
+
+    it "sets default value in initialize" do
+      assert_equal subject.name, "Jonny Smith"
+    end
+
+  end
 end
