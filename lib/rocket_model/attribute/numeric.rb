@@ -1,5 +1,5 @@
 module RocketModel
-  module Attribute
+  class Attribute
     class Numeric < Object
     end
   end

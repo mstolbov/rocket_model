@@ -4,17 +4,17 @@ describe RocketModel::Attribute do
 
   describe "with boolean type" do
     subject do
-      klass = Class.new { include RocketModel::Base }
+      klass = Class.new { include RocketModel }
       klass.attribute :admin, :Boolean
       klass.new
     end
 
     it "converts attribute value to described type" do
       subject.admin = "yes"
-      assert_equal subject.admin, true
+      assert_equal true, subject.admin
 
       subject.admin = 0
-      assert_equal subject.admin, false
+      assert_equal false, subject.admin
     end
 
     it "raises error when value cannot be converted" do

@@ -1,5 +1,5 @@
 module RocketModel
-  module Attribute
+  class Attribute
     class String < Object
 
       def convert

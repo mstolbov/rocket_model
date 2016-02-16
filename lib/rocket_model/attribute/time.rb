@@ -1,7 +1,7 @@
 require "date"
 
 module RocketModel
-  module Attribute
+  class Attribute
     class Time < Object
 
       def convert

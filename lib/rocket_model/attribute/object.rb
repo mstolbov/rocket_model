@@ -1,6 +1,6 @@
 module RocketModel
-  module Attribute
-    class Object
+  class Attribute
+    class Object < Attribute
       attr_reader :value
 
       def initialize(value)

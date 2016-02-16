@@ -22,7 +22,7 @@ Or install it yourself as:
 
 ```ruby
 class User
-  include RocketModel::Base
+  include RocketModel
 
   attribute :name, :String
   attribute :admin, :Boolean, default: true
