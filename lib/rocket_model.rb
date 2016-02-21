@@ -8,8 +8,11 @@ module RocketModel
   autoload :Dirty, "rocket_model/dirty"
   autoload :DirtyAttribute, "rocket_model/dirty"
 
+  autoload :Serialization, "rocket_model/serialization"
+
   def self.included(base)
     base.include AttributeMethods
     base.include Dirty
+    base.include Serialization
   end
 end

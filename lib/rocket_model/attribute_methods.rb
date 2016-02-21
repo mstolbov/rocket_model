@@ -17,7 +17,7 @@ module RocketModel
       def attribute(name, type = nil, options = {})
         validate_name(name)
         validate_type(type) if type
-        @attribute_definitions << [name, type, options]
+        @attribute_definitions << [name.to_s, type, options]
         self
       end
 

@@ -19,7 +19,7 @@ describe RocketModel::DirtyAttribute do
     klass.attribute :name
     klass.attribute :kind, :Symbol, default: :man
     obj = klass.new name: "Joan", kind: :woman
-    assert_equal [:name, :kind], obj.changed
+    assert_equal ["name", "kind"], obj.changed
   end
 
   it "don't marks attribute as dirty if incoming value the same" do
@@ -30,7 +30,7 @@ describe RocketModel::DirtyAttribute do
   it "returns attribute changes" do
     subject.kind = :woman
     subject.name = "Joan"
-    assert_equal({name: [nil, "Joan"], kind: [:man, :woman]}, subject.changes)
+    assert_equal({"name" => [nil, "Joan"], "kind" => [:man, :woman]}, subject.changes)
   end
 
   it "returns previous attribute value" do
@@ -51,10 +51,10 @@ describe RocketModel::DirtyAttribute do
     subject.kind = :woman
     subject.name = "Joan"
     assert subject.changed?
-    assert_equal({name: "Joan", kind: :woman}, subject.attributes)
+    assert_equal({"name" => "Joan", "kind" => :woman}, subject.attributes)
 
     subject.restore_attributes
     assert !subject.changed?
-    assert_equal({name: nil, kind: :man}, subject.attributes)
+    assert_equal({"name" => nil, "kind" => :man}, subject.attributes)
   end
 end
