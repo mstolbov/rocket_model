@@ -15,11 +15,11 @@ module RocketModel
       @type = type
       @default = options.fetch(:default, nil)
 
-      set_default
+      set_defaults
     end
 
-    def set(new_value)
-      @value = convert(new_value)
+    def set(value)
+      @value = convert(value)
     end
 
     def get
@@ -34,7 +34,7 @@ module RocketModel
       type_klass.new(value).convert
     end
 
-    def set_default
+    def set_defaults
       set(@default) if @default
     end
 

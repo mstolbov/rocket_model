@@ -42,8 +42,8 @@ describe RocketModel::Attribute do
   it "allows mass-assignment in constructor" do
     klass = Class.new { include RocketModel }
     klass.attribute :name
-    instance = klass.new name: "Jonny"
-    assert_equal instance.name, "Jonny"
+    obj = klass.new name: "Jonny"
+    assert_equal obj.name, "Jonny"
   end
 
   describe "with type defined" do

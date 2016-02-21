@@ -4,6 +4,7 @@ module RocketModel
 
       def convert
         case value
+        when ::String then value
         when ::FalseClass, ::TrueClass then value.to_s
         when ::Numeric then value.to_s
         when ::Symbol then value.to_s

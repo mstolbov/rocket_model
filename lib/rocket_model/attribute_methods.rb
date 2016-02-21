@@ -21,6 +21,13 @@ module RocketModel
         self
       end
 
+      def inspect
+        attr_list = @attribute_definitions.map do |name, type, _|
+          "#{name}:#{type}"
+        end.join(", ")
+        "#{super}(#{attr_list})"
+      end
+
       def validate_name(name)
         if instance_methods.include?(:attributes) && name.to_sym == :attributes
           fail ArgumentError, "#{name.inspect} is not allowed as an attribute name"
@@ -61,22 +68,46 @@ module RocketModel
       end
     end
 
+    def inspect
+      inspect_attributes = attributes.map { |k, v| "#{k}: #{v.inspect}" }.join(", ")
+      "#<#{self.class} #{inspect_attributes}>"
+    end
+
     def define_attributes
       attribute_definitions.each do |attribute_args|
-        name, type, options = *attribute_args
-        instance_variable_set "@#{name}", Attribute.new(type, options)
-
-        define_singleton_method name do
-          instance_variable_get("@#{name}").get
-        end
-
-        writer_name = "#{name}="
-        define_singleton_method writer_name do |value|
-          instance_variable_get("@#{name}").set value
-        end
+        define_attribute_methods(*attribute_args)
       end
     end
     private :define_attributes
+
+    def define_attribute_methods(name, type, options)
+      define_attribute_variable(name, type, options)
+
+      define_singleton_method name do
+        get_attribute_value(name)
+      end
+
+      writer_name = "#{name}="
+      define_singleton_method writer_name do |value|
+        set_attribute_value(name, value)
+      end
+    end
+    private :define_attribute_methods
+
+    def define_attribute_variable(name, type, options)
+      instance_variable_set "@#{name}", Attribute.new(type, options)
+    end
+    private :define_attribute_variable
+
+    def get_attribute_value(name)
+      instance_variable_get("@#{name}").get
+    end
+    protected :get_attribute_value
+
+    def set_attribute_value(name, value)
+      instance_variable_get("@#{name}").set value
+    end
+    protected :set_attribute_value
 
     def attribute_definitions
       self.class.instance_variable_get("@attribute_definitions")

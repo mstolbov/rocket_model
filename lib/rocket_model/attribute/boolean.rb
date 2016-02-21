@@ -4,6 +4,7 @@ module RocketModel
 
       def convert
         case value
+        when ::TrueClass, ::FalseClass then value
         when ::Numeric then convert_from_num
         when ::String then convert_from_str
         else
