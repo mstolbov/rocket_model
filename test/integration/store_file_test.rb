@@ -28,7 +28,23 @@ describe RocketModel::Store::File do
     assert_equal([{"id" => 1, "name" => "Bill"}], data)
   end
 
-  it "#delete"
-  it "#persist"
+  it "#persist" do
+    subject.update(1, {"name" => "Bill"}, table: "people")
+    subject.persist
+
+    store = subject.class.new path: "test/fixtures/test.pstore"
+    data = store.read({"id" => 1}, table: "people")
+    assert_equal([{"id" => 1, "name" => "Bill"}], data)
+
+    # restore data
+    subject.update(1, {"name" => "Jimm"}, table: "people")
+    subject.persist
+  end
+
+  it "#delete" do
+    data = subject.delete(1, table: "people")
+    data = subject.read({"id" => 1}, table: "people")
+    assert_equal([], data)
+  end
 
 end

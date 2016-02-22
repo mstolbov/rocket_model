@@ -40,8 +40,10 @@ module RocketModel
         record.update data
       end
 
-      def delete(data, table:)
-        # TODO
+      def delete(id, table:)
+        @table[table].delete_if do |record|
+          record["id"] == id
+        end
       end
 
       def persist
