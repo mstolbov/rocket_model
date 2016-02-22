@@ -24,7 +24,7 @@ describe RocketModel::Serialization do
   end
 
   it "represents except gived attributes" do
-    json_str = {"kind" => :man}.to_yaml
+    json_str = {"id" => nil, "kind" => :man}.to_yaml
     assert_equal json_str, subject.to_yaml(except: :name)
   end
 

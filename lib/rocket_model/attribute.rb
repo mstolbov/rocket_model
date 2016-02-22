@@ -14,16 +14,24 @@ module RocketModel
     def initialize(type, options)
       @type = type
       @default = options.fetch(:default, nil)
+      @read_only = options.fetch(:read_only, false)
 
       set_defaults
     end
 
     def set(value)
+      return if @read_only
+
       @value = convert(value)
     end
 
     def get
       @value
+    end
+
+    def force_set(value) # :nodoc:
+      # Used for update readonly attribute
+      @value = convert(value)
     end
 
     private

@@ -51,10 +51,10 @@ describe RocketModel::DirtyAttribute do
     subject.kind = :woman
     subject.name = "Joan"
     assert subject.changed?
-    assert_equal({"name" => "Joan", "kind" => :woman}, subject.attributes)
+    assert_equal({"id" => nil, "name" => "Joan", "kind" => :woman}, subject.attributes)
 
     subject.restore_attributes
     assert !subject.changed?
-    assert_equal({"name" => nil, "kind" => :man}, subject.attributes)
+    assert_equal({"id" => nil, "name" => nil, "kind" => :man}, subject.attributes)
   end
 end

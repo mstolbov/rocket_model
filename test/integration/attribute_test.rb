@@ -23,9 +23,9 @@ describe RocketModel::Attribute do
   end
 
   it "#attributes returns attributes hash" do
-    assert_equal({"name" => nil}, subject.attributes)
+    assert_equal({"id" => nil,"name" => nil}, subject.attributes)
     subject.attributes = {name: "Stefan"}
-    assert_equal({"name" => "Stefan"}, subject.attributes)
+    assert_equal({"id" => nil, "name" => "Stefan"}, subject.attributes)
   end
 
   it "raises error when #attribute is a reserved wrong name" do
