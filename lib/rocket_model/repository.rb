@@ -11,11 +11,11 @@ module RocketModel
       store.all(table: table_name).map {|data| model.new data}
     end
 
-    def find(model, key, id)
+    def find(model, id)
       key = model.primary_key
       condition = {"#{key}" => id}
-      data = store.read(condition, {table: table_name}).first
-      fail RecordNotFound.new(condition, table) unless data
+      data = store.read(condition, table: table_name).first
+      fail RecordNotFound.new(condition, table_name) unless data
 
       model.new data
     end

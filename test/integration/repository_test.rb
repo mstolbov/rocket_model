@@ -21,7 +21,16 @@ describe RocketModel::Repository do
     assert_equal Person, persons.first.class
   end
 
-  it "#find"
+  it "#find" do
+    person = Person.find(1)
+    assert !!person
+    assert_equal 1, person.id
+  end
+
+  it "#find error" do
+    assert_raises(RocketModel::RecordNotFound) { Person.find(2) }
+  end
+
   it "#where"
 
   it "#create returns persisted object" do
