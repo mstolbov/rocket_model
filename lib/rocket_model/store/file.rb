@@ -34,7 +34,10 @@ module RocketModel
       end
 
       def update(id, data, table:)
-        # TODO
+        record = @table[table].select do |record|
+          record["id"] == id
+        end.first
+        record.update data
       end
 
       def delete(data, table:)

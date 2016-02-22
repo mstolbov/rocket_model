@@ -20,7 +20,14 @@ describe RocketModel::Store::File do
     assert_equal([{"id" => 1, "name" => "Jimm"}], data)
   end
 
-  it "#update"
+  it "#update" do
+    data = subject.update(1, {"name" => "Bill"}, table: "people")
+    assert_equal({"id" => 1, "name" => "Bill"}, data)
+
+    data = subject.read({"id" => 1}, table: "people")
+    assert_equal([{"id" => 1, "name" => "Bill"}], data)
+  end
+
   it "#delete"
   it "#persist"
 
