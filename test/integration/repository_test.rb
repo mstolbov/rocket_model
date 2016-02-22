@@ -15,10 +15,10 @@ describe RocketModel::Repository do
     Person.repository = RocketModel::TestRepositiry
   end
 
-  it "#all returns persons list" do
-    persons = Person.all
-    assert !persons.empty?
-    assert_equal Person, persons.first.class
+  it "#all returns Person list" do
+    people = Person.all
+    assert !people.empty?
+    assert_equal Person, people.first.class
   end
 
   it "#find" do
@@ -31,7 +31,11 @@ describe RocketModel::Repository do
     assert_raises(RocketModel::RecordNotFound) { Person.find(2) }
   end
 
-  it "#where"
+  it "#where" do
+    people = Person.where(name: "Jimm")
+    assert !people.empty?
+    assert_equal "Jimm", people.first.name
+  end
 
   it "#create returns persisted object" do
     person = Person.create name: "Bill"

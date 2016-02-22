@@ -1,4 +1,5 @@
 require "active_support/core_ext/string/inflections"
+require "active_support/core_ext/hash/keys"
 require "rocket_model/version"
 
 module RocketModel

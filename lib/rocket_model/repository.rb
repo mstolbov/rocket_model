@@ -89,6 +89,10 @@ module RocketModel
         repository.find(self, id)
       end
 
+      def where(condition)
+        repository.where(self, condition.stringify_keys)
+      end
+
       def all
         repository.all(self)
       end
