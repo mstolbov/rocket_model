@@ -21,13 +21,6 @@ module RocketModel
         self
       end
 
-      def inspect
-        attr_list = @attribute_definitions.map do |name, type, _|
-          "#{name}:#{type}"
-        end.join(", ")
-        "#{super}(#{attr_list})"
-      end
-
       def validate_name(name)
         if instance_methods.include?(:attributes) && name.to_sym == :attributes
           fail ArgumentError, "#{name.inspect} is not allowed as an attribute name"
@@ -43,18 +36,11 @@ module RocketModel
       private :validate_type
     end
 
-    def initialize(args = {})
-      define_attributes
-      self.attributes = args
-    end
-
     def attributes
-      values = {}
-      attribute_definitions.each do |attribute_args|
+      attribute_definitions.each_with_object({}) do |attribute_args, h|
         name, _type, _options = *attribute_args
-        values[name] = public_send(name)
+        h[name] = public_send(name)
       end
-      values
     end
 
     def attributes=(values)
@@ -66,11 +52,6 @@ module RocketModel
           fail UnknownAttributeError.new(self, name)
         end
       end
-    end
-
-    def inspect
-      inspect_attributes = attributes.map { |k, v| "#{k}: #{v.inspect}" }.join(", ")
-      "#<#{self.class} #{inspect_attributes}>"
     end
 
     def define_attributes

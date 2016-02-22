@@ -1,3 +1,4 @@
+require "active_support/core_ext/string/inflections"
 require "rocket_model/version"
 
 module RocketModel
@@ -10,9 +11,12 @@ module RocketModel
 
   autoload :Serialization, "rocket_model/serialization"
 
+  autoload :Core, "rocket_model/core"
+
   def self.included(base)
     base.include AttributeMethods
     base.include Dirty
+    base.include Core
     base.include Serialization
   end
 end

@@ -48,9 +48,7 @@ module RocketModel
         attribute_names -= Array(options[:except]).map(&:to_s)
       end
 
-      hash = {}
-      attribute_names.each { |n| hash[n] = public_send(n) }
-      hash
+      attribute_names.each_with_object({}) { |n, h| h[n] = public_send(n) }
     end
 
   end

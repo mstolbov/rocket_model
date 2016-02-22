@@ -53,11 +53,9 @@ module RocketModel
     end
 
     def changes
-      h = {}
-      changed.each do |name|
+      changed.each_with_object({}) do |name, h|
         h[name] = [previous_value(name), public_send(name)]
       end
-      h
     end
 
     def previous_value(name)

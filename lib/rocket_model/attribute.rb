@@ -30,7 +30,7 @@ module RocketModel
 
     def convert(value)
       return value unless @type
-      type_klass = Object.const_get("RocketModel::Attribute::#{@type}")
+      type_klass = "RocketModel::Attribute::#{@type}".constantize
       type_klass.new(value).convert
     end
 
