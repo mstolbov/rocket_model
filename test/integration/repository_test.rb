@@ -59,8 +59,12 @@ describe RocketModel::Repository do
     assert "Jimm", Person.find(1).name
   end
 
-  it "#delete"
-  it "#persist"
+  it "#delete" do
+    person = Person.create(name: "Moe")
+    person.delete
+
+    assert_raises(RocketModel::RecordNotFound) {Person.find(person.id)}
+  end
 
 end
 

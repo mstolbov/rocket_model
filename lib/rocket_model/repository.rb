@@ -35,7 +35,7 @@ module RocketModel
       store.update(id, data, table: table_name)
     end
 
-    def detele(model)
+    def delete(model)
       id = model.primary_key_value
       store.delete(id, table: table_name)
     end
