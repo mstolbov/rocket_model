@@ -31,7 +31,7 @@ module RocketModel
     end
 
     def update(model)
-      id, data = model.primary_key_value, model.changes
+      id, data = model.primary_key_value, model.changes_for_save
       store.update(id, data, table: table_name)
     end
 
@@ -104,6 +104,11 @@ module RocketModel
 
     def primary_key_value
       public_send(primary_key)
+    end
+
+    def update(attrs)
+      self.attributes = attrs
+      save
     end
 
     def save

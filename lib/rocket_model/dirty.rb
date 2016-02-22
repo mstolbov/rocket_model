@@ -58,6 +58,12 @@ module RocketModel
       end
     end
 
+    def changes_for_save
+      changed.each_with_object({}) do |name, h|
+        h[name] = public_send(name)
+      end
+    end
+
     def previous_value(name)
       v = instance_variable_get("@#{name}")
       v.previous_value

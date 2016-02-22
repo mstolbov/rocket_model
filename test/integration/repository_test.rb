@@ -28,7 +28,7 @@ describe RocketModel::Repository do
   end
 
   it "#find error" do
-    assert_raises(RocketModel::RecordNotFound) { Person.find(2) }
+    assert_raises(RocketModel::RecordNotFound) { Person.find(100) }
   end
 
   it "#where" do
@@ -43,7 +43,22 @@ describe RocketModel::Repository do
     assert person.persisted?
   end
 
-  it "#update"
+  it "#create persist new object" do
+    person = Person.new name: "July"
+    person.save
+    assert person.persisted?
+  end
+
+  it "#update" do
+    person = Person.find(1)
+    person.name = "Bill"
+    person.save
+    assert "Bill", Person.find(1).name
+
+    person.update(name: "Jimm")
+    assert "Jimm", Person.find(1).name
+  end
+
   it "#delete"
   it "#persist"
 
