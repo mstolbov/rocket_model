@@ -28,7 +28,9 @@ module RocketModel
       end
 
       def read(data, table:)
-        # TODO
+        @table[table].select do |record|
+          record.values_at(*data.keys) == data.values
+        end
       end
 
       def update(id, data, table:)

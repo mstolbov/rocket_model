@@ -11,11 +11,15 @@ describe RocketModel::Store::File do
   end
 
   it "#create addes id to data" do
-    data = subject.create({"name" => "Jimm"}, table: "people")
-    assert_equal({"id" => 2, "name" => "Jimm"}, data)
+    data = subject.create({"name" => "Bill"}, table: "people")
+    assert_equal({"id" => 2, "name" => "Bill"}, data)
   end
 
-  it "#read"
+  it "#read" do
+    data = subject.read({"id" => 1}, table: "people")
+    assert_equal([{"id" => 1, "name" => "Jimm"}], data)
+  end
+
   it "#update"
   it "#delete"
   it "#persist"
