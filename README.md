@@ -31,6 +31,23 @@ end
 user = User.new name: "Admin Jonny"
 user.name # => "Admin Jonny"
 user.admin # => true
+user.save
+
+user2 = User.create name: "Admin Bill", admin: true
+
+users = User.where(admin: true)
+users.map(&:name) # => ["Admin Jonny", "Admin Bill"]
+
+user.update(name: "User Jonny", admin: false)
+
+users = User.where(admin: true)
+users.map(&:name) # => ["Admin Bill"]
+
+user2.delete
+
+users = User.all
+users.map(&:name) # => ["User Jonny"]
+
 ```
 
 ## Development

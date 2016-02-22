@@ -1,4 +1,28 @@
 module RocketModel
+
+  # == Rocket \Model \Attribute \Methods
+  #
+  # Provides a way to add attribute methods to your model
+  #
+  # Example:
+  #
+  #   class Person
+  #     include RocketModel
+  #
+  #     attribute :name, :String, default: "No name"
+  #   end
+  #
+  #   person = Person.new
+  #   person.name # =>"No name"
+  #
+  #   person.name = "Bill"
+  #   person.name # =>"Bill"
+  #
+  #   # Allow mass-assigment
+  #   person2 = Person.new name: "Steave"
+  #   person2.name # =>"Steave"
+  #
+
   module AttributeMethods
     TYPES = [:Date, :DateTime, :Time, :Integer, :Float, :String, :Symbol, :Boolean]
 

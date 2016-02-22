@@ -1,31 +1,31 @@
 module RocketModel
+  # == Rocket \Model \Core
+  #
+  # Contains the database configuration. Default is <tt>Store::File</tt> with {path: "database.pstore"}
+  #
+  # Example:
+  #   # Set global store
+  #   RocketModel.config do |c|
+  #     c.store = {store: "postgres", database: "my_database", username: "postgres", password: "")
+  #   end
+  #
+  #   class Person
+  #     include RocketModel
+  #     attribute :name
+  #   end
+  #
+  #   person = Person.new name: "Bill G."
+  #   person.save
+  #   person.persisted? # => true
+  #
+  #
+  #   # Change store for model
+  #   class User < Person
+  #     store = {store: "file", path: "database.pstore")
+  #   end
+  #
   module Core
 
-    # RocketModel::Core
-    #
-    # Contains the database configuration. Default is <tt>Store::File</tt> with {path: "database.pstore"}
-    #
-    # Example:
-    #   # Set global store
-    #   RocketModel.config do |c|
-    #     c.store = {store: "postgres", database: "my_database", username: "postgres", password: "")
-    #   end
-    #
-    #   class Person
-    #     include RocketModel
-    #     attribute :name
-    #   end
-    #
-    #   person = Person.new name: "Bill G."
-    #   person.save
-    #   person.persisted? # => true
-    #
-    #
-    #   # Change store for model
-    #   class User < Person
-    #     store = {store: "file", path: "database.pstore")
-    #   end
-    #
     def self.included(base)
       base.extend ClassMethods
       base.class_eval do
