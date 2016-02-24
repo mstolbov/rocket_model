@@ -4,8 +4,9 @@ describe RocketModel::Attribute do
 
   describe "with date type" do
     subject do
-      klass = Class.new { include RocketModel }
-      klass.attribute :date, :Date
+      klass = Class.new(RocketModel::Base) do
+        attribute :date, :Date
+      end
       klass.new
     end
 

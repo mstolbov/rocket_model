@@ -4,8 +4,9 @@ describe RocketModel::Attribute do
 
   describe "with float type" do
     subject do
-      klass = Class.new { include RocketModel }
-      klass.attribute :round, :Float
+      klass = Class.new(RocketModel::Base) do
+        attribute :round, :Float
+      end
       klass.new
     end
 

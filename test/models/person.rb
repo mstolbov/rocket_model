@@ -1,5 +1,4 @@
-class Person
-  include RocketModel
+class Person < RocketModel::Base
 
   attribute :name, :String
   attribute :role, :Symbol, default: :user

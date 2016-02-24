@@ -20,18 +20,7 @@ module RocketModel
   autoload :RepositoryMethods, "rocket_model/repository"
   autoload :Store, "rocket_model/store"
 
-  autoload :Config, "rocket_model/config"
+  autoload :Configuration, "rocket_model/configuration"
 
-  def self.included(base)
-    base.include AttributeMethods
-    base.include Dirty
-    base.include Core
-    base.include RepositoryMethods
-    base.include Serialization
-  end
-
-  def self.config
-    yield Config
-  end
-
+  autoload :Base, "rocket_model/base"
 end

@@ -4,8 +4,9 @@ describe RocketModel::Attribute do
 
   describe "with symbol type" do
     subject do
-      klass = Class.new { include RocketModel }
-      klass.attribute :name, :Symbol
+      klass = Class.new(RocketModel::Base) do
+        attribute :name, :Symbol
+      end
       klass.new
     end
 

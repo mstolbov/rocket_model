@@ -4,9 +4,23 @@ require 'yaml'
 describe RocketModel::Serialization do
 
   subject do
-    klass = Class.new { include RocketModel }
-    klass.attribute :name, :String, default: "Bill"
-    klass.attribute :kind, :Symbol, default: :man
+    klass = Class.new do
+      include RocketModel::Serialization
+      def attributes
+        {
+          name: "Bill",
+          kind: :man
+        }.stringify_keys
+      end
+
+      def name
+        attributes["name"]
+      end
+
+      def kind
+        attributes["kind"]
+      end
+    end
     klass.new
   end
 
@@ -24,7 +38,7 @@ describe RocketModel::Serialization do
   end
 
   it "represents except gived attributes" do
-    json_str = {"id" => nil, "kind" => :man}.to_yaml
+    json_str = {"kind" => :man}.to_yaml
     assert_equal json_str, subject.to_yaml(except: :name)
   end
 

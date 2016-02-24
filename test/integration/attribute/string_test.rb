@@ -4,8 +4,9 @@ describe RocketModel::Attribute do
 
   describe "with string type" do
     subject do
-      klass = Class.new { include RocketModel }
-      klass.attribute :name, :String
+      klass = Class.new(RocketModel::Base) do
+        attribute :name, :String
+      end
       klass.new
     end
 

@@ -4,9 +4,7 @@ module RocketModel
   #
   # Example:
   #
-  #   class Person
-  #     include RocketModel
-  #
+  #   class Person < RocketModel::Base
   #     attribute :name
   #   end
   #
@@ -71,9 +69,7 @@ module RocketModel
   #
   # Example:
   #
-  #   class Person
-  #     include RocketModel
-  #
+  #   class Person < RocketModel::Base
   #     attribute :name
   #   end
   #
@@ -86,9 +82,6 @@ module RocketModel
 
     def self.included(base)
       base.extend ClassMethods
-      base.class_eval do
-        attribute :id, :Integer#, read_only: true
-      end
     end
 
     module ClassMethods
@@ -192,7 +185,17 @@ module RocketModel
       def all
         repository.all(self)
       end
+
+      def set_default_attributes # :nodoc:
+        self.attribute :id, :Integer#, read_only: true
+      end
     end
+
+    def initialize(attrs = {})
+      self.class.set_default_attributes
+      super
+    end
+
 
     def primary_key # :nodoc:
       self.class.primary_key

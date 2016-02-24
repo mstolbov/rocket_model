@@ -8,6 +8,6 @@ require 'rocket_model'
 
 require 'minitest/autorun'
 
-RocketModel.config do |c|
+RocketModel::Base.configure do |c|
   c.store = {store: "file", path: "test/fixtures/test.pstore"}
 end

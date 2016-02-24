@@ -36,14 +36,15 @@ module RocketModel
     private :set_defaults
   end
 
-  # == Rocket \Model |Dirty
+  # == Rocket Model Dirty
   #
   # Provides a way to track changes in your object
   #
   # Example:
   #
   #   class Person
-  #     include RocketModel
+  #     include RocketModel::AttributeMethods
+  #     include RocketModel::Dirty
   #
   #     attribute :name, :String, default: "No name"
   #   end

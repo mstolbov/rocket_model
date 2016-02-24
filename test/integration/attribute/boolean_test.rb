@@ -4,8 +4,9 @@ describe RocketModel::Attribute do
 
   describe "with boolean type" do
     subject do
-      klass = Class.new { include RocketModel }
-      klass.attribute :admin, :Boolean
+      klass = Class.new(RocketModel::Base) do
+        attribute :admin, :Boolean
+      end
       klass.new
     end
 

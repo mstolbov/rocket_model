@@ -1,16 +1,11 @@
 module RocketModel
   # == Rocket \Model \Core
   #
-  # Contains the database configuration. Default is <tt>Store::File</tt> with {path: "database.pstore"}
+  # Contains the store configuration. Default is <tt>Store::File</tt> with {path: "database.pstore"}
   #
   # Example:
-  #   # Set global store
-  #   RocketModel.config do |c|
-  #     c.store = {store: "postgres", database: "my_database", username: "postgres", password: "")
-  #   end
   #
-  #   class Person
-  #     include RocketModel
+  #   class Person < RocketModel::Base
   #     attribute :name
   #   end
   #
@@ -28,18 +23,9 @@ module RocketModel
 
     def self.included(base)
       base.extend ClassMethods
-      base.class_eval do
-        configure do |c|
-          Config.new(c).configure
-        end
-      end
     end
 
     module ClassMethods
-
-      def configure
-        yield self
-      end
 
       def store=(store)
         @store = store
@@ -48,15 +34,16 @@ module RocketModel
       def store
         return @connection if @connection
 
-        @store ||= {store: "file", path: "database.pstore"}
+        @store ||= self.superclass.config.store
         store = @store.fetch(:store)
         options = @store.select {|k,v| k != :store}
         @connection = "rocket_model/store/#{store}".camelize.constantize.new(options)
       end
 
       def inspect
-        attr_list = @attribute_definitions.map do |name, type, _|
-          "#{name}:#{type}"
+        return super unless @attribute_definitions
+        attr_list = @attribute_definitions.map do |name, args|
+          "#{name}:#{args.first}"
         end.join(", ")
         "#{super}(#{attr_list})"
       end

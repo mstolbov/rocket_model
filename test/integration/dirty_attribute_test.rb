@@ -3,9 +3,10 @@ require 'test_helper'
 describe RocketModel::DirtyAttribute do
 
   subject do
-    klass = Class.new { include RocketModel }
-    klass.attribute :name
-    klass.attribute :kind, :Symbol, default: :man
+    klass = Class.new(RocketModel::Base) do
+      attribute :name
+      attribute :kind, :Symbol, default: :man
+    end
     klass.new
   end
 
@@ -15,9 +16,10 @@ describe RocketModel::DirtyAttribute do
   end
 
   it "marks attributes in constructor as dirty" do
-    klass = Class.new { include RocketModel }
-    klass.attribute :name
-    klass.attribute :kind, :Symbol, default: :man
+    klass = Class.new(RocketModel::Base) do
+      attribute :name
+      attribute :kind, :Symbol, default: :man
+    end
     obj = klass.new name: "Joan", kind: :woman
     assert_equal ["name", "kind"], obj.changed
   end

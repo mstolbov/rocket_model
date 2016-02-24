@@ -3,13 +3,14 @@ require 'test_helper'
 describe RocketModel::Attribute do
 
   subject do
-    klass = Class.new { include RocketModel }
-    klass.attribute :name
+    klass = Class.new(RocketModel::Base) do
+      attribute :name
+    end
     klass.new
   end
 
   it "returns self" do
-    klass = Class.new { include RocketModel }
+    klass = Class.new(RocketModel::Base)
     assert_equal klass.attribute(:name), klass
   end
 
@@ -29,7 +30,7 @@ describe RocketModel::Attribute do
   end
 
   it "raises error when #attribute is a reserved wrong name" do
-    klass = Class.new { include RocketModel }
+    klass = Class.new(RocketModel::Base)
     exception = assert_raises(ArgumentError) { klass.attribute(:attributes) }
     assert_equal exception.message, ":attributes is not allowed as an attribute name"
   end
@@ -40,16 +41,18 @@ describe RocketModel::Attribute do
   end
 
   it "allows mass-assignment in constructor" do
-    klass = Class.new { include RocketModel }
-    klass.attribute :name
+    klass = Class.new(RocketModel::Base) do
+      attribute :name
+    end
     obj = klass.new name: "Jonny"
     assert_equal obj.name, "Jonny"
   end
 
   describe "with type defined" do
     subject do
-      klass = Class.new { include RocketModel }
-      klass.attribute :name, String
+      klass = Class.new(RocketModel::Base) do
+        attribute :name, String
+      end
       klass.new
     end
 
@@ -62,8 +65,9 @@ describe RocketModel::Attribute do
 
   describe "with default values" do
     subject do
-      klass = Class.new { include RocketModel }
-      klass.attribute :name, :String, default: "Jonny Smith"
+      klass = Class.new(RocketModel::Base) do
+        attribute :name, :String, default: "Jonny Smith"
+      end
       klass.new
     end
 

@@ -1,13 +1,13 @@
 module RocketModel
 
-  # == Rocket \Model \Attribute \Methods
+  # == Rocket Model Attribute Methods
   #
   # Provides a way to add attribute methods to your model
   #
   # Example:
   #
   #   class Person
-  #     include RocketModel
+  #     include RocketModel::AttributeMethods
   #
   #     attribute :name, :String, default: "No name"
   #   end
@@ -28,20 +28,14 @@ module RocketModel
 
     def self.included(base)
       base.extend ClassMethods
-      base.class_eval do
-        setup
-      end
     end
 
     module ClassMethods
-      def setup
-        @attribute_definitions = []
-      end
-
       def attribute(name, type = nil, options = {})
+        @attribute_definitions ||= {}
         validate_name(name)
         validate_type(type) if type
-        @attribute_definitions << [name.to_s, type, options]
+        @attribute_definitions[name.to_s] = [type, options]
         self
       end
 
@@ -61,8 +55,7 @@ module RocketModel
     end
 
     def attributes
-      attribute_definitions.each_with_object({}) do |attribute_args, h|
-        name, _type, _options = *attribute_args
+      attribute_definitions.keys.each_with_object({}) do |name, h|
         h[name] = public_send(name)
       end
     end
@@ -79,8 +72,8 @@ module RocketModel
     end
 
     def define_attributes
-      attribute_definitions.each do |attribute_args|
-        define_attribute_methods(*attribute_args)
+      attribute_definitions.each do |name, args|
+        define_attribute_methods(name, *args)
       end
     end
     private :define_attributes

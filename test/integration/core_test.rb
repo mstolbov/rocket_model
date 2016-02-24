@@ -15,30 +15,31 @@ end
 describe RocketModel::Core do
 
   subject do
-    klass = Class.new { include RocketModel }
-    klass.attribute :name, :String, default: "Bill"
+    klass = Class.new(RocketModel::Base) do
+      attribute :name, :String, default: "Bill"
+    end
     klass.new
   end
 
   it "#inspect class" do
-    assert_equal "#{subject.class}(id:Integer, name:String)", subject.class.inspect
+    assert_equal "#{subject.class}(name:String, id:Integer)", subject.class.inspect
   end
 
   it "#inspect instance" do
-    assert_equal "#<#{subject.class} id: nil, name: \"Bill\">", subject.inspect
+    assert_equal "#<#{subject.class} name: \"Bill\", id: nil>", subject.inspect
   end
 
   it "#configure" do
-    RocketModel.config do |c|
+    RocketModel::Base.configure do |c|
       c.store = {store: "test", message: "Aloha!"}
     end
-    klass = Class.new { include RocketModel }
+    klass = Class.new(RocketModel::Base)
     assert_equal RocketModel::Store::Test, klass.store.class
     assert_equal "Aloha!", klass.store.message
 
     #return dafault
-    RocketModel.config do |c|
-      c.store = {store: "file", path: "test.pstore"}
+    RocketModel::Base.configure do |c|
+      c.store = {store: "file", path: "test/fixtures/test.pstore"}
     end
   end
 
@@ -47,7 +48,7 @@ describe RocketModel::Core do
   end
 
   it "sets store for model" do
-    klass = Class.new { include RocketModel }
+    klass = Class.new(RocketModel::Base)
     klass.store = {store: "test", message: "Aloha!"}
     assert_equal RocketModel::Store::Test, klass.store.class
     assert_equal "Aloha!", klass.store.message

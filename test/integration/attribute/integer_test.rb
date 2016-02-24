@@ -4,8 +4,9 @@ describe RocketModel::Attribute do
 
   describe "with integer type" do
     subject do
-      klass = Class.new { include RocketModel }
-      klass.attribute :round, :Integer
+      klass = Class.new(RocketModel::Base) do
+        attribute :round, :Integer
+      end
       klass.new
     end
 
